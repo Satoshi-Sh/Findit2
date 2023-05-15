@@ -9,9 +9,55 @@ interface Name {
   name: string;
 }
 
+interface CanDivProps {
+  input: string;
+  names: string[];
+  loading: boolean;
+  handleClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+}
+
+const CanDiv: React.FC<CanDivProps> = ({
+  input,
+  names,
+  loading,
+  handleClick,
+}) => {
+  if (loading && input.length > 0) {
+    return (
+      <div className="can-div">
+        <div className="candidate">Loading...</div>
+      </div>
+    );
+  } else if (input.length > 0 && names.length === 0) {
+    return (
+      <div className="can-div">
+        <div className="candidate">No results...</div>
+      </div>
+    );
+  }
+  return (
+    <>
+      <div
+        className={input.length === 0 || names.length === 0 ? "" : "can-div"}
+      >
+        {names.length > 0 &&
+          input.length > 0 &&
+          names.map((name, index) => {
+            return (
+              <div className="candidate" key={index} onClick={handleClick}>
+                {name}
+              </div>
+            );
+          })}
+      </div>
+    </>
+  );
+};
+
 const Director = () => {
   const [input, setInput] = useState<string>("");
   const [names, setNames] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const prevInputRef = useRef<string>("");
   const navigate = useNavigate();
   const debounceGetCandidates = useRef(
@@ -21,6 +67,7 @@ const Director = () => {
         .then((response) => {
           setNames(response.data.map((x: Name) => x.name));
           prevInputRef.current = value;
+          setLoading(false);
         })
         .catch((error) => {
           console.log(error);
@@ -46,17 +93,12 @@ const Director = () => {
     <div className="content">
       <h2 className="find-header">Find Director</h2>
       <input type="text" autoFocus value={input} onChange={handleInput}></input>
-      <div className={input.length == 0 || names.length == 0 ? "" : "can-div"}>
-        {names.length > 0 &&
-          input.length > 0 &&
-          names.map((name, index) => {
-            return (
-              <div className="candidate" key={index} onClick={handleClick}>
-                {name}
-              </div>
-            );
-          })}
-      </div>
+      <CanDiv
+        input={input}
+        names={names}
+        loading={loading}
+        handleClick={handleClick}
+      />
     </div>
   );
 };
