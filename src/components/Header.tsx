@@ -22,7 +22,7 @@ const Header = () => {
             <Link to="/movie">Movie</Link>
           </li>
           <li>
-            <Link to="/star">Star</Link>
+            <Link to="/star">Actor</Link>
           </li>
         </ul>
       </nav>

@@ -4,6 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 1.2em;
 }
 
 .find-header {
@@ -17,4 +18,28 @@ input {
   border-radius: 10px;
   width: 200px;
   padding: 10px;
+  font-size: 1.1em;
+}
+
+.can-div {
+  margin: 20px;
+  border: solid 2px grey;
+  border-radius: 5px;
+  max-height: 40vh;
+  overflow-y: scroll;
+}
+
+.movie-can-div {
+  width: 80vw;
+  max-width: 500px;
+  min-width: 250px;
+}
+.can-div .candidate {
+  padding: 5px;
+  width: calc(100% - 10px);
+  cursor: pointer;
+}
+
+.candidate:hover {
+  background-color: rgba(89, 159, 182, 0.719);
 }

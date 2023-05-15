@@ -1,0 +1,54 @@
+.detail-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+table {
+  border-collapse: collapse;
+  font-size: 1.2em;
+  min-width: 280px;
+  max-width: 800px;
+  width: 80vw;
+  margin: 20px;
+}
+
+th {
+  text-align: left;
+}
+
+td,
+th {
+  padding: 8px;
+}
+
+.even {
+  background-color: #f2f2f2;
+}
+
+.odd {
+  background-color: #ffffff;
+}
+
+thead th {
+  border-bottom: 2px solid black;
+}
+
+.votes-td {
+  text-align: right;
+}
+
+.star-td {
+  text-align: center;
+}
+.star-th {
+  text-align: center;
+}
+
+.star-yellow {
+  color: rgba(218, 218, 29, 0.918);
+  font-size: 1.5em;
+  text-align: center;
+  text-shadow: 1px 1px 2px #000;
+}
