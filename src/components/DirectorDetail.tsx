@@ -80,7 +80,7 @@ const DirectorDetail = () => {
       }
     };
     fetchData();
-  }, []);
+  });
   return (
     <div className="detail-div">
       <h1>{name}</h1>
@@ -107,7 +107,7 @@ const DirectorDetail = () => {
                     <tr key={i} className={i % 2 === 0 ? "even" : "odd"}>
                       <td>{movie.title}</td>
                       <td>
-                        {movie.rating} ({yearAverage[movie.year].toFixed(2)})
+                        {movie.rating} ({yearAverage[movie.year].toFixed(1)})
                       </td>
                       {windowWidth < 460 ? null : (
                         <td className="votes-td">{movie.votes}</td>
