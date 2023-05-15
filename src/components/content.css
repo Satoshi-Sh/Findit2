@@ -24,6 +24,7 @@ input {
 .can-div {
   margin: 20px;
   border: solid 2px grey;
+  width: 200px;
   border-radius: 5px;
   max-height: 40vh;
   overflow-y: scroll;

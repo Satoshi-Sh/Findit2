@@ -1,18 +1,18 @@
-.header {
-  position: sticky;
-  display: flex;
-  align-items: center;
-  background-color: ghostwhite;
-  border-bottom: solid 2px grey;
-  border-top: solid 2px grey;
-  height: 80px;
-  width: 100vw;
-  font-weight: 100;
+.navbar-brand span {
+  font-size: 1.8em;
+  font-weight: 500;
 }
 
 .logo {
   margin: 20px;
   font-weight: 400;
+}
+
+.navbar-nav a {
+  color: grey;
+  font-size: 1.5em;
+  text-decoration: none;
+  margin: 5px;
 }
 
 .blue {
@@ -30,23 +30,4 @@
 
 .orange {
   color: orange;
-}
-
-nav ul {
-  display: flex;
-  list-style: none;
-}
-nav ul li {
-  margin: 10px;
-  padding: 0;
-}
-nav ul li a {
-  text-decoration: none;
-  color: grey;
-  font-weight: 500;
-  font-size: 25px;
-}
-
-nav ul li a:hover {
-  color: lightblue;
 }

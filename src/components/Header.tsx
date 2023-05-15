@@ -1,32 +1,33 @@
 import React from "react";
 import "./header.css";
 import { Link } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 const Header = () => {
   return (
-    <div className="header">
-      <h1 className="logo">
-        <span className="blue">F</span>
-        <span className="red">I</span>
-        <span className="yellow">N</span>
-        <span className="green">D</span>
-        &nbsp;
-        <span className="orange">I</span>
-        <span className="red">T</span>
-      </h1>
-      <nav>
-        <ul>
-          <li>
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand>
+          <span className="blue">F</span>
+          <span className="red">I</span>
+          <span className="yellow">N</span>
+          <span className="green">D</span>
+          &nbsp;
+          <span className="orange">I</span>
+          <span className="red">T</span>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
             <Link to="/">Director</Link>
-          </li>
-          <li>
             <Link to="/movie">Movie</Link>
-          </li>
-          <li>
             <Link to="/star">Actor</Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 export default Header;

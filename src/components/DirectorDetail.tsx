@@ -53,6 +53,22 @@ const DirectorDetail = () => {
   const { name } = useParams();
   const [data, setData] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    // Update the windowWidth state when the window is resized
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Attach the event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -71,7 +87,7 @@ const DirectorDetail = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <div className="table-div">
           {/* Display the fetched data  - title,rating,vote, year */}
           {data && (
             <table>
@@ -79,7 +95,8 @@ const DirectorDetail = () => {
                 <tr className="header-tr">
                   <th>Title</th>
                   <th>Rating</th>
-                  <th>Votes</th>
+                  {windowWidth < 460 ? null : <th>Votes</th>}
+
                   <th>Year</th>
                   <th className="star-th">Star</th>
                 </tr>
@@ -92,7 +109,9 @@ const DirectorDetail = () => {
                       <td>
                         {movie.rating} ({yearAverage[movie.year].toFixed(2)})
                       </td>
-                      <td className="votes-td">{movie.votes}</td>
+                      {windowWidth < 460 ? null : (
+                        <td className="votes-td">{movie.votes}</td>
+                      )}
                       <td>{movie.year}</td>
                       {
                         <Stars

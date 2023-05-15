@@ -5,12 +5,18 @@
   align-items: center;
   padding: 20px;
 }
+.table-div {
+  width: 80vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 table {
   border-collapse: collapse;
   font-size: 1.2em;
-  min-width: 280px;
+  min-width: 200px;
   max-width: 800px;
-  width: 80vw;
+  width: 70vw;
   margin: 20px;
 }
 
@@ -21,6 +27,20 @@ th {
 td,
 th {
   padding: 8px;
+}
+@media screen and (max-width: 460px) {
+  td,
+  th {
+    padding: 4px;
+  }
+  .td-title,
+  .td-year,
+  .td-rating {
+    font-size: 0.9em;
+  }
+  .star-td .star-yellow {
+    font-size: 1em;
+  }
 }
 
 .even {
