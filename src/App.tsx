@@ -6,6 +6,7 @@ import Movie from "./components/Movie";
 import MovieDetail from "./components/MovieDetail";
 import Director from "./components/Director";
 import DirectorDetail from "./components/DirectorDetail";
+import WatchList from "./components/WatchList";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/movie/detail/:title" element={<MovieDetail />} />
           <Route path="/star" element={<Star />} />
           <Route path="/star/detail/:name" element=<StarDetail /> />
+          <Route path="/watchlist" element=<WatchList /> />
         </Routes>
       </Router>
     </div>

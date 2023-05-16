@@ -24,6 +24,7 @@ const Header = () => {
             <Link to="/">Director</Link>
             <Link to="/movie">Movie</Link>
             <Link to="/star">Actor</Link>
+            <Link to="/watchlist">Watch List</Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

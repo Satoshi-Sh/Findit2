@@ -28,6 +28,38 @@
   font-size: 1.2em;
 }
 
+.director-div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 1.2em;
+  margin: 10px;
+}
+
+.director-name {
+  color: rgb(36, 36, 185);
+  padding: 5px;
+}
+.director-name:hover {
+  background-color: lightcyan;
+  cursor: pointer;
+}
+.person-name {
+  color: rgb(36, 36, 185);
+  padding: 5px;
+}
+.person-name:hover {
+  background-color: lightcyan;
+  cursor: pointer;
+}
+
+.cast-ul {
+  font-size: 1.2em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 .overview {
   width: 80vw;
   max-width: 800px;
