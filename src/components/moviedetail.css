@@ -1,0 +1,48 @@
+.movie-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 25px;
+  gap: 10px;
+}
+
+.movie-title {
+  font-style: italic;
+}
+
+@media screen and (max-width: 460px) {
+  img {
+    width: 80vw;
+    height: auto;
+  }
+  movie-detail.genres {
+    font-size: 1em;
+  }
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 1.2em;
+}
+
+.overview {
+  width: 80vw;
+  max-width: 800px;
+}
+
+.overview p::first-letter {
+  font-style: italic;
+  font-size: 1.1em;
+  margin: 2px;
+}
+
+.add-watch {
+  margin: 20px;
+}
+
+.tmdb-link {
+  text-decoration: none;
+}
