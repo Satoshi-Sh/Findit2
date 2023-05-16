@@ -17,7 +17,7 @@ const MovieDetail = () => {
         const response = await axios.get(
           `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}`
         );
-        console.log(response.data);
+        console.log(response.data.results[0]);
       } catch (error) {
         console.error("Error fetching users:", error);
       }

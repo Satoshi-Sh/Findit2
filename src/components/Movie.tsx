@@ -5,7 +5,7 @@ import axios from "axios";
 import debounce from "lodash/debounce";
 import { BASE_URL } from "../constant";
 
-import data from "../year_average.json";
+import data from "../data/year_average.json";
 
 interface AverageData {
   [year: number]: number;
