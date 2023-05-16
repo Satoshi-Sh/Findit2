@@ -68,7 +68,14 @@ const MovieDetail: React.FC = () => {
         <>
           <h1 className="movie-title">{data.title}</h1>
           <h2 className="sub-title">Release Date: {data.release_date}</h2>
-          <img src={`${imageBaseURL}/${data.poster_path}`} alt="movie poster" />
+          {data.poster_path ? (
+            <img
+              src={`${imageBaseURL}/${data.poster_path}`}
+              alt="movie poster"
+            />
+          ) : (
+            <div className="no-poster">No Poster</div>
+          )}
           <div className="genres">
             Genre:
             {data.genre_ids &&
