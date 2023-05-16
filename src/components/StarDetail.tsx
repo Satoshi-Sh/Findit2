@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./detail.css";
 import axios from "axios";
-import { BASE_URL } from "../constant";
+import { BASE_URL, PAGE_URL } from "../constant";
 import data from "../data/year_average.json";
 
 interface AverageData {
@@ -81,6 +81,12 @@ const StarDetail = () => {
     };
     fetchData();
   });
+  // move to movie detalpage
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLDivElement;
+    const name = target.innerText;
+    window.location.href = `${PAGE_URL}/movie/detail/${name}`;
+  };
   return (
     <div className="detail-div">
       <h1>{name}</h1>
@@ -105,7 +111,9 @@ const StarDetail = () => {
                 {data.map((movie, i) => {
                   return (
                     <tr key={i} className={i % 2 === 0 ? "even" : "odd"}>
-                      <td className="td-title">{movie.title}</td>
+                      <td className="td-title" onClick={handleClick}>
+                        {movie.title}
+                      </td>
                       <td className="td-rating">
                         {movie.rating} ({yearAverage[movie.year].toFixed(1)})
                       </td>

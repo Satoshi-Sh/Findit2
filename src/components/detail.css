@@ -43,6 +43,11 @@ th {
   }
 }
 
+.td-title:hover {
+  background-color: lightcyan;
+  cursor: pointer;
+}
+
 .even {
   background-color: #f2f2f2;
 }

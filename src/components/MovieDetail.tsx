@@ -43,9 +43,10 @@ const MovieDetail: React.FC = () => {
     const fetchMovie = async () => {
       try {
         const response = await axios.get(
-          `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}`
+          `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}&append_to_response=credits`
         );
         console.log(response.data.results[0]);
+        console.log(response.data.credits);
         setData(response.data.results[0]);
         setLoading(false);
       } catch (error) {
@@ -66,6 +67,7 @@ const MovieDetail: React.FC = () => {
       {data ? (
         <>
           <h1 className="movie-title">{data.title}</h1>
+          <h2 className="sub-title">Release Date: {data.release_date}</h2>
           <img src={`${imageBaseURL}/${data.poster_path}`} alt="movie poster" />
           <div className="genres">
             Genre:

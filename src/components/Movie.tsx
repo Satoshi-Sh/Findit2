@@ -90,10 +90,11 @@ const Movie = () => {
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
   };
+  // move to movie detalpage
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const name = target.innerText;
-    navigate(`detail/${name}`);
+    navigate(`./detail/${name}`);
   };
 
   useEffect(() => {
@@ -127,7 +128,9 @@ const Movie = () => {
                 {movies.map((movie, i) => {
                   return (
                     <tr key={i} className={i % 2 === 0 ? "even" : "odd"}>
-                      <td className="td-title">{movie.title}</td>
+                      <td className="td-title" onClick={handleClick}>
+                        {movie.title}
+                      </td>
                       <td className="td-rating">
                         {movie.rating} ({yearAverage[movie.year].toFixed(1)})
                       </td>

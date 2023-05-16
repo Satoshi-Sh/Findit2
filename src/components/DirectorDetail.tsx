@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./detail.css";
 import axios from "axios";
-import { BASE_URL } from "../constant";
+import { BASE_URL, PAGE_URL } from "../constant";
 import data from "../data/year_average.json";
 
 interface AverageData {
@@ -54,6 +54,7 @@ const DirectorDetail = () => {
   const [data, setData] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const navigate = useNavigate();
   useEffect(() => {
     // Update the windowWidth state when the window is resized
     const handleResize = () => {
@@ -81,6 +82,12 @@ const DirectorDetail = () => {
     };
     fetchData();
   });
+  // move to movie detalpage
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLDivElement;
+    const name = target.innerText;
+    window.location.href = `${PAGE_URL}/movie/detail/${name}`;
+  };
   return (
     <div className="detail-div">
       <h1>{name}</h1>
@@ -105,7 +112,9 @@ const DirectorDetail = () => {
                 {data.map((movie, i) => {
                   return (
                     <tr key={i} className={i % 2 === 0 ? "even" : "odd"}>
-                      <td>{movie.title}</td>
+                      <td className="td-title" onClick={handleClick}>
+                        {movie.title}
+                      </td>
                       <td>
                         {movie.rating} ({yearAverage[movie.year].toFixed(1)})
                       </td>
