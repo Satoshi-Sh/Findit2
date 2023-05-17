@@ -88,9 +88,12 @@ const MovieDetail: React.FC = () => {
         const response = await axios.get(
           `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}`
         );
+        setLoading(false);
+        console.log(response.data.results);
+        if (response.data.results.length == 0) return;
         const id = response.data.results[0]["id"];
         setData(response.data.results[0]);
-        setLoading(false);
+
         try {
           const response2 = await axios.get(
             `${URL}/movie/${id}/credits?api_key=${ApiKey}`
@@ -161,7 +164,12 @@ const MovieDetail: React.FC = () => {
         <h1>Loading....</h1>
       </div>
     );
+  } else if (!data) {
+    <div className="movie-detail">
+      <h1>No data</h1>
+    </div>;
   }
+
   return (
     <div className="movie-detail">
       {data ? (
