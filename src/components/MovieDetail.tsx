@@ -5,6 +5,8 @@ import axios from "axios";
 import "./moviedetail.css";
 import data from "../data/genre_ids.json";
 import Button from "react-bootstrap/Button";
+import { retrieveLocal } from "./WatchList";
+import { produce } from "immer";
 
 interface GenreIds {
   [id: number]: string;
@@ -13,7 +15,7 @@ const genreIds: GenreIds = data;
 
 const imageBaseURL = "https://image.tmdb.org/t/p/w342";
 
-interface MovieData {
+export interface MovieData {
   poster_path: string | null;
   adult: boolean;
   overview: string;
@@ -28,6 +30,12 @@ interface MovieData {
   vote_count: number;
   video: boolean;
   vote_average: number;
+}
+
+export interface SimpleData {
+  poster_path: string | null;
+  title: string;
+  release_date: string;
 }
 
 interface Crew {
@@ -64,6 +72,10 @@ const MovieDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [directors, setDirectors] = useState<string[]>([]);
   const [casts, setCasts] = useState<Cast[]>([]);
+  const movieArray: Array<SimpleData> = retrieveLocal();
+  const [list, setList] = useState<SimpleData[]>(movieArray);
+  const hasMovie = movieArray.some((movie) => movie.title == title);
+  const [added, setAdded] = useState<boolean>(hasMovie);
   useEffect(() => {
     const URL = process.env.REACT_APP_THIRD_API_URL;
     const ApiKey = process.env.REACT_APP_THIRD_API_KEY;
@@ -77,7 +89,6 @@ const MovieDetail: React.FC = () => {
           `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}`
         );
         const id = response.data.results[0]["id"];
-        console.log(id);
         setData(response.data.results[0]);
         setLoading(false);
         try {
@@ -85,7 +96,6 @@ const MovieDetail: React.FC = () => {
             `${URL}/movie/${id}/credits?api_key=${ApiKey}`
           );
           const credits = response2.data;
-          console.log(credits);
           // crew
           const crews: Crew[] = credits.crew;
           const directorArray = crews
@@ -103,6 +113,12 @@ const MovieDetail: React.FC = () => {
     };
     fetchMovie();
   }, []);
+
+  // save update data to local storage
+  useEffect(() => {
+    const jsonString: string = JSON.stringify(list);
+    localStorage.setItem("movies", jsonString);
+  }, [added]);
   // move to director detailpage
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
@@ -114,6 +130,30 @@ const MovieDetail: React.FC = () => {
     const target = event.target as HTMLDivElement;
     const name = target.innerText;
     window.location.href = `${PAGE_URL}/star/detail/${name}`;
+  };
+  const addList = () => {
+    if (data) {
+      setList(
+        produce((draft) => {
+          draft.push({
+            poster_path: data.poster_path,
+            title: data.title,
+            release_date: data.release_date,
+          });
+        })
+      );
+
+      setAdded(true);
+    }
+  };
+  const removeList = () => {
+    const index: number = list.findIndex((movie) => movie.title === title);
+    setList(
+      produce((draft) => {
+        draft.splice(index, 1);
+      })
+    );
+    setAdded(false);
   };
   if (loading) {
     return (
@@ -157,9 +197,24 @@ const MovieDetail: React.FC = () => {
                 );
               })}
           </div>
-          <Button className="add-watch" variant="outline-info">
-            Watch List +
-          </Button>{" "}
+          {added ? (
+            <Button
+              className="add-watch"
+              variant="outline-danger"
+              onClick={removeList}
+            >
+              Watch List -
+            </Button>
+          ) : (
+            <Button
+              className="add-watch"
+              variant="outline-info"
+              onClick={addList}
+            >
+              Watch List +
+            </Button>
+          )}
+
           {casts && <h3>Casts</h3>}
           <ul className="cast-ul">
             {casts &&
