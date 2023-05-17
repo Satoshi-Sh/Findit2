@@ -89,7 +89,6 @@ const MovieDetail: React.FC = () => {
           `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}`
         );
         setLoading(false);
-        console.log(response.data.results);
         if (response.data.results.length == 0) return;
         const id = response.data.results[0]["id"];
         setData(response.data.results[0]);

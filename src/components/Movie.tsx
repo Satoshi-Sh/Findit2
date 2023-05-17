@@ -14,6 +14,7 @@ const yearAverage: AverageData = data;
 
 type Movie = {
   title: string;
+  id: number;
   rating: number;
   votes: number;
   year: number;
@@ -94,7 +95,8 @@ const Movie = () => {
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const name = target.innerText;
-    navigate(`./detail/${name}`);
+    const movieId = target.id;
+    navigate(`./detail/${name}?movieId=${movieId}`);
   };
 
   useEffect(() => {
@@ -128,7 +130,11 @@ const Movie = () => {
                 {movies.map((movie, i) => {
                   return (
                     <tr key={i} className={i % 2 === 0 ? "even" : "odd"}>
-                      <td className="td-title" onClick={handleClick}>
+                      <td
+                        className="td-title"
+                        id={String(movie.id)}
+                        onClick={handleClick}
+                      >
                         {movie.title}
                       </td>
                       <td className="td-rating">

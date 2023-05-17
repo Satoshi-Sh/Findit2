@@ -12,6 +12,7 @@ const yearAverage: AverageData = data;
 
 type Movie = {
   title: string;
+  id: number;
   rating: number;
   votes: number;
   year: number;
@@ -74,6 +75,7 @@ const DirectorDetail = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/director/${name}`);
+        console.log(response.data);
         setData(response.data);
         setLoading(false);
       } catch (error) {
@@ -81,12 +83,13 @@ const DirectorDetail = () => {
       }
     };
     fetchData();
-  });
+  }, []);
   // move to movie detalpage
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const name = target.innerText;
-    window.location.href = `${PAGE_URL}/movie/detail/${name}`;
+    const movieId = target.id;
+    window.location.href = `${PAGE_URL}/movie/detail/${name}?movieId=${movieId}`;
   };
   return (
     <div className="detail-div">
@@ -112,7 +115,11 @@ const DirectorDetail = () => {
                 {data.map((movie, i) => {
                   return (
                     <tr key={i} className={i % 2 === 0 ? "even" : "odd"}>
-                      <td className="td-title" onClick={handleClick}>
+                      <td
+                        className="td-title"
+                        id={String(movie.id)}
+                        onClick={handleClick}
+                      >
                         {movie.title}
                       </td>
                       <td>
