@@ -243,13 +243,26 @@ const MovieDetail: React.FC = () => {
     <div className="movie-detail">
       {d ? (
         <>
-          <h1 className="movie-title">{d.title}</h1>
+          <div className="movie-title-container">
+            <h1 className="movie-title">{d.title}</h1>
+          </div>
           <h2 className="sub-title">Release Date: {d.release_date}</h2>
           {d.poster_path ? (
-            <img src={`${imageBaseURL}/${d.poster_path}`} alt="movie poster" />
+            <div className="poster-container">
+              <img
+                src={`${imageBaseURL}/${d.poster_path}`}
+                alt="movie poster"
+                className="movie-poster"
+              />
+            </div>
           ) : (
             <div className="no-poster">No Poster</div>
           )}
+          <IndexButtons
+            dataLength={data.length}
+            mIndex={mIndex}
+            setmIndex={setmIndex}
+          />
           <div className="genres">
             Genre:
             {d.genre_ids &&
@@ -257,11 +270,6 @@ const MovieDetail: React.FC = () => {
                 return <div key={i}>{genreIds[genre]}</div>;
               })}
           </div>
-          <IndexButtons
-            dataLength={data.length}
-            mIndex={mIndex}
-            setmIndex={setmIndex}
-          />
 
           <div className="overview">
             <p>{d.overview}</p>

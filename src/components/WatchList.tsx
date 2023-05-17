@@ -20,6 +20,10 @@ const imageBaseURL = "https://image.tmdb.org/t/p/w185";
 const WatchList = () => {
   const movieArray = retrieveLocal();
   const [list, setList] = useState<SimpleData[]>(movieArray);
+  const clearLocal = () => {
+    localStorage.clear();
+    setList([]);
+  };
   // save updated list to local storage
   useEffect(() => {
     const jsonString: string = JSON.stringify(list);
@@ -92,6 +96,15 @@ const WatchList = () => {
             );
           })}
         </div>
+      )}
+      {list.length > 0 && (
+        <Button
+          className="clear-local"
+          onClick={clearLocal}
+          variant="outline-danger"
+        >
+          Clear Local Storage
+        </Button>
       )}
     </div>
   );
