@@ -24,6 +24,7 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
+  "homepage": "https://satoshi-sh.github.io/findit2",
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",
