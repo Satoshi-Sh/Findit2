@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./header.css";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
@@ -6,8 +6,23 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
 const Header = () => {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleToggle = () => {
+    setExpanded(!expanded);
+  };
+
+  const handleLinkClick = () => {
+    setExpanded(false);
+  };
   return (
-    <Navbar bg="light" expand="lg" className="sticky-top">
+    <Navbar
+      bg="light"
+      expand="lg"
+      className="sticky-top"
+      expanded={expanded}
+      onToggle={handleToggle}
+    >
       <Container>
         <Navbar.Brand>
           <span className="blue">F</span>
@@ -21,10 +36,18 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Link to="/">Director</Link>
-            <Link to="/movie">Movie</Link>
-            <Link to="/star">Actor</Link>
-            <Link to="/watchlist">Watch List</Link>
+            <Link to="/" onClick={handleLinkClick}>
+              Director
+            </Link>
+            <Link to="/movie" onClick={handleLinkClick}>
+              Movie
+            </Link>
+            <Link to="/star" onClick={handleLinkClick}>
+              Actor
+            </Link>
+            <Link to="/watchlist" onClick={handleLinkClick}>
+              Watch List
+            </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
