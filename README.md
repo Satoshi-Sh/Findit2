@@ -1,6 +1,6 @@
 # Find IT
 
-This application is created to show movie data by plots.
+This application help users to find movies to watch.
 
 ## Available Scripts
 
