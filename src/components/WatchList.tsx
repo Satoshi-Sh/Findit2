@@ -1,8 +1,8 @@
 import "./watchlist.css";
 import { SimpleData } from "./MovieDetail";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { PAGE_URL } from "../constant";
 import { produce } from "immer";
 
 export const retrieveLocal = () => {
@@ -20,6 +20,7 @@ const imageBaseURL = "https://image.tmdb.org/t/p/w185";
 const WatchList = () => {
   const movieArray = retrieveLocal();
   const [list, setList] = useState<SimpleData[]>(movieArray);
+  const navigate = useNavigate();
   const clearLocal = () => {
     localStorage.clear();
     setList([]);
@@ -35,7 +36,7 @@ const WatchList = () => {
     const title = target.parentElement?.querySelector("h2")?.innerText;
     const movieId = target.id;
     if (title) {
-      window.location.href = `${PAGE_URL}/movie/detail/${title}?movieId=${movieId}`;
+      navigate(`/movie/detail/${title}?movieId=${movieId}`);
     }
   };
   const watchedClick = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./detail.css";
 import axios from "axios";
-import { BASE_URL, PAGE_URL } from "../constant";
+import { BASE_URL } from "../constant";
 import data from "../data/year_average.json";
 
 interface AverageData {
@@ -55,6 +55,7 @@ const StarDetail = () => {
   const [data, setData] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const navigate = useNavigate();
   useEffect(() => {
     // Update the windowWidth state when the window is resized
     const handleResize = () => {
@@ -87,7 +88,7 @@ const StarDetail = () => {
     const target = event.target as HTMLDivElement;
     const name = target.innerText;
     const movieId = target.id;
-    window.location.href = `${PAGE_URL}/movie/detail/${name}?movieId=${movieId}`;
+    navigate(`/movie/detail/${name}?movieId=${movieId}`);
   };
   return (
     <div className="detail-div">

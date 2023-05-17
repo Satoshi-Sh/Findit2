@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
-import { PAGE_URL } from "../constant";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./moviedetail.css";
 import data from "../data/genre_ids.json";
@@ -125,6 +124,7 @@ const MovieDetail: React.FC = () => {
   const URL = process.env.REACT_APP_THIRD_API_URL;
   const ApiKey = process.env.REACT_APP_THIRD_API_KEY;
   const d = data[mIndex];
+  const navigate = useNavigate();
   useEffect(() => {
     let urlTitle = "";
     if (typeof title !== "undefined") {
@@ -193,13 +193,14 @@ const MovieDetail: React.FC = () => {
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const name = target.innerText;
-    window.location.href = `${PAGE_URL}/detail/${name}`;
+
+    navigate(`/detail/${name}`);
   };
   // move to actor detailpage
   const handleClick2 = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const name = target.innerText;
-    window.location.href = `${PAGE_URL}/star/detail/${name}`;
+    navigate(`/star/detail/${name}`);
   };
   const addList = () => {
     if (data[mIndex]) {
