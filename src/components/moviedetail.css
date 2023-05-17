@@ -97,3 +97,10 @@
   border-radius: 5px;
   margin: 10px;
 }
+
+.buttons-div {
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+  margin-bottom: 20px;
+}

@@ -33,6 +33,7 @@ export interface MovieData {
 }
 
 export interface SimpleData {
+  id: number;
   poster_path: string | null;
   title: string;
   release_date: string;
@@ -65,23 +66,66 @@ interface Cast {
   popularity: number;
   profile_path: string | null;
 }
+// button div for index
+interface ButtonsProps {
+  dataLength: number;
+  mIndex: number;
+  setmIndex: React.Dispatch<React.SetStateAction<number>>;
+}
+const IndexButtons: React.FC<ButtonsProps> = ({
+  dataLength,
+  mIndex,
+  setmIndex,
+}) => {
+  const increaseIndex = () => {
+    setmIndex((prev) => prev + 1);
+  };
+  const decreaseIndex = () => {
+    setmIndex((prev) => prev - 1);
+  };
+  const canDecrease = mIndex >= 1;
+  const canIncrease = mIndex < dataLength - 1;
+  if (dataLength == 1) {
+    return <></>;
+  }
+  return (
+    <div className="buttons-div">
+      <Button
+        disabled={!canDecrease}
+        onClick={decreaseIndex}
+        variant="secondary"
+      >
+        &lt;
+      </Button>
+      <Button
+        disabled={!canIncrease}
+        onClick={increaseIndex}
+        variant="secondary"
+      >
+        &gt;
+      </Button>
+    </div>
+  );
+};
 
 const MovieDetail: React.FC = () => {
   const { title } = useParams();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const movieId = queryParams.get("movieId");
-  const [data, setData] = useState<MovieData | null>();
+  const [data, setData] = useState<MovieData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [directors, setDirectors] = useState<string[]>([]);
   const [casts, setCasts] = useState<Cast[]>([]);
   const movieArray: Array<SimpleData> = retrieveLocal();
   const [list, setList] = useState<SimpleData[]>(movieArray);
-  const hasMovie = movieArray.some((movie) => movie.title == title);
-  const [added, setAdded] = useState<boolean>(hasMovie);
+
+  const [added, setAdded] = useState<boolean>(false);
+  const [mIndex, setmIndex] = useState<number>(0);
+  const URL = process.env.REACT_APP_THIRD_API_URL;
+  const ApiKey = process.env.REACT_APP_THIRD_API_KEY;
+  const d = data[mIndex];
   useEffect(() => {
-    const URL = process.env.REACT_APP_THIRD_API_URL;
-    const ApiKey = process.env.REACT_APP_THIRD_API_KEY;
     let urlTitle = "";
     if (typeof title !== "undefined") {
       urlTitle = title.replace("%20", "+");
@@ -97,36 +141,49 @@ const MovieDetail: React.FC = () => {
           const responseSecond = await axios.get(
             `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}`
           );
-          id = responseSecond.data.results[0]["id"];
-          setData(responseSecond.data.results[0]);
+          setData(responseSecond.data.results);
         } else {
-          id = response.data.movie_results[0]["id"];
-          setData(response.data.movie_results[0]);
-        }
-        try {
-          const response2 = await axios.get(
-            `${URL}/movie/${id}/credits?api_key=${ApiKey}`
-          );
-          const credits = response2.data;
-          // crew
-          const crews: Crew[] = credits.crew;
-          const directorArray = crews
-            .filter((obj) => obj.job.toLowerCase() === "director")
-            .map((obj) => obj.name);
-          setDirectors(directorArray);
-          // cast
-          setCasts(credits.cast);
-        } catch (error) {
-          console.error("Erro fetching credits:", error);
+          id = response.data.movie_results["id"];
+          setData(response.data.movie_results);
         }
       } catch (error) {
         console.error("Error fetching movie:", error);
       }
-      setLoading(false);
     };
     fetchMovie();
+    setLoading(false);
   }, []);
 
+  // fetch credits when index is changed
+  useEffect(() => {
+    const fetchCredit = async () => {
+      try {
+        if (!data[mIndex]) return;
+        const id = data[mIndex].id;
+        const response2 = await axios.get(
+          `${URL}/movie/${id}/credits?api_key=${ApiKey}`
+        );
+        const credits = response2.data;
+        // crew
+        const crews: Crew[] = credits.crew;
+        const directorArray = crews
+          .filter((obj) => obj.job.toLowerCase() === "director")
+          .map((obj) => obj.name);
+        setDirectors(directorArray);
+        // cast
+        setCasts(credits.cast);
+      } catch (error) {
+        console.error("Erro fetching credits:", error);
+      }
+    };
+    fetchCredit();
+  }, [mIndex, data]);
+  // check if the movie is in the watchlist
+  useEffect(() => {
+    if (!d) return;
+    const hasMovie = list.some((movie) => movie.title == data[mIndex].title);
+    setAdded(hasMovie);
+  }, [mIndex, data, list]);
   // save update data to local storage
   useEffect(() => {
     const jsonString: string = JSON.stringify(list);
@@ -145,13 +202,15 @@ const MovieDetail: React.FC = () => {
     window.location.href = `${PAGE_URL}/star/detail/${name}`;
   };
   const addList = () => {
-    if (data) {
+    if (data[mIndex]) {
+      const d = data[mIndex];
       setList(
         produce((draft) => {
           draft.push({
-            poster_path: data.poster_path,
-            title: data.title,
-            release_date: data.release_date,
+            id: d.id,
+            poster_path: d.poster_path,
+            title: d.title,
+            release_date: d.release_date,
           });
         })
       );
@@ -174,35 +233,38 @@ const MovieDetail: React.FC = () => {
         <h1>Loading....</h1>
       </div>
     );
-  } else if (!data) {
+  } else if (data.length === 0) {
     <div className="movie-detail">
-      <h1>No data</h1>
+      <h1>No data available</h1>
     </div>;
   }
 
   return (
     <div className="movie-detail">
-      {data ? (
+      {d ? (
         <>
-          <h1 className="movie-title">{data.title}</h1>
-          <h2 className="sub-title">Release Date: {data.release_date}</h2>
-          {data.poster_path ? (
-            <img
-              src={`${imageBaseURL}/${data.poster_path}`}
-              alt="movie poster"
-            />
+          <h1 className="movie-title">{d.title}</h1>
+          <h2 className="sub-title">Release Date: {d.release_date}</h2>
+          {d.poster_path ? (
+            <img src={`${imageBaseURL}/${d.poster_path}`} alt="movie poster" />
           ) : (
             <div className="no-poster">No Poster</div>
           )}
           <div className="genres">
             Genre:
-            {data.genre_ids &&
-              data.genre_ids.map((genre, i) => {
+            {d.genre_ids &&
+              d.genre_ids.map((genre, i) => {
                 return <div key={i}>{genreIds[genre]}</div>;
               })}
           </div>
+          <IndexButtons
+            dataLength={data.length}
+            mIndex={mIndex}
+            setmIndex={setmIndex}
+          />
+
           <div className="overview">
-            <p>{data.overview}</p>
+            <p>{d.overview}</p>
           </div>
           {directors && <h3>Director</h3>}
           <div className="director-div">

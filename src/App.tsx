@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <Router basename="findit">
+      <Router basename="findit2">
         <Header />
         <Routes>
           <Route path="/" element={<Director />} />

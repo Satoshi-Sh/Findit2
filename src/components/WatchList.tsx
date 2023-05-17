@@ -29,8 +29,9 @@ const WatchList = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const target = event.target as HTMLButtonElement;
     const title = target.parentElement?.querySelector("h2")?.innerText;
+    const movieId = target.id;
     if (title) {
-      window.location.href = `${PAGE_URL}/movie/detail/${title}`;
+      window.location.href = `${PAGE_URL}/movie/detail/${title}?movieId=${movieId}`;
     }
   };
   const watchedClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -75,6 +76,7 @@ const WatchList = () => {
                   className="list-button"
                   variant="outline-info"
                   onClick={handleClick}
+                  id={String(movie.id)}
                 >
                   Detail
                 </Button>
