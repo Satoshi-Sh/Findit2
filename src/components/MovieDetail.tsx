@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { PAGE_URL } from "../constant";
 import axios from "axios";
 import "./moviedetail.css";
@@ -68,6 +68,9 @@ interface Cast {
 
 const MovieDetail: React.FC = () => {
   const { title } = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const movieId = queryParams.get("movieId");
   const [data, setData] = useState<MovieData | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [directors, setDirectors] = useState<string[]>([]);
@@ -86,13 +89,20 @@ const MovieDetail: React.FC = () => {
     const fetchMovie = async () => {
       try {
         const response = await axios.get(
-          `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}`
+          `${URL}/find/tt${movieId}?api_key=${ApiKey}&external_source=imdb_id`
         );
-        setLoading(false);
-        if (response.data.results.length == 0) return;
-        const id = response.data.results[0]["id"];
-        setData(response.data.results[0]);
+        let id;
 
+        if (response.data.movie_results.length == 0) {
+          const responseSecond = await axios.get(
+            `${URL}/search/movie?api_key=${ApiKey}&query=${urlTitle}`
+          );
+          id = responseSecond.data.results[0]["id"];
+          setData(responseSecond.data.results[0]);
+        } else {
+          id = response.data.movie_results[0]["id"];
+          setData(response.data.movie_results[0]);
+        }
         try {
           const response2 = await axios.get(
             `${URL}/movie/${id}/credits?api_key=${ApiKey}`
@@ -112,6 +122,7 @@ const MovieDetail: React.FC = () => {
       } catch (error) {
         console.error("Error fetching movie:", error);
       }
+      setLoading(false);
     };
     fetchMovie();
   }, []);
