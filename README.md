@@ -34,3 +34,8 @@ The second is from [TMDB](https://www.themoviedb.org/).
 - React-Bootstrap
 - TypeScript 
 
+## Outlook
+<p align="center" width="50%" height="50%">
+<img src='https://github.com/Satoshi-Sh/git_resource/blob/main/findit-demo.gif' width="50%" height="50%">
+</p>
+
