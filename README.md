@@ -20,11 +20,11 @@ Users can save titles in theier watchlist.
 
 
 ## Backend
-Two api was used. One is my own API.
-[Backend Repo](https://github.com/Satoshi-Sh/FindIt2-API)
-The second is from [TMDB](https://www.themoviedb.org/). 
+Two api was used for this app.
+- My Own API [Backend Repo](https://github.com/Satoshi-Sh/FindIt2-API)
+- API by [TMDB](https://www.themoviedb.org/). 
 
-* My original data was provided by IMDB and couldn't use their id to look up a movie in TMDB. I used movie title instead to look up, so sometimes this app gives different movie with the similar movie title. You can search through next button in the movie detail page.
+My original data was provided by IMDB and couldn't use their id to look up a movie in TMDB. I used movie title instead to look up, so sometimes this app gives different movie with the similar movie title. You can search through next button in the movie detail page.
 
 ## Live Page
 [Live Page](https://satoshi-sh.github.io/findit2/)
