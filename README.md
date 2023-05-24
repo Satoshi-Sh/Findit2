@@ -34,6 +34,9 @@ My original data was provided by IMDB and couldn't use their id to look up a mov
 - React-Bootstrap
 - TypeScript 
 
+## Developer Note
+[Mastodon](https://mastodon.xyz/@sato1108ss/110357673950261061)
+
 ## Outlook
 <p align="center" width="50%" height="50%">
 <img src='https://github.com/Satoshi-Sh/git_resource/blob/main/findit-demo.gif' width="50%" height="50%">
